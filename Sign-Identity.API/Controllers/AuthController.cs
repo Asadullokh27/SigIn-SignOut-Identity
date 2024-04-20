@@ -23,6 +23,37 @@ namespace Sign_Identity.API.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Something went wrong!");
+            }
+
+            var user = await _userManager.FindByEmailAsync(loginDTO.Email);
+
+            if (user is null)
+                return NotFound("Email not found");
+
+            var result = await _signInManager.PasswordSignInAsync(user: user, password: loginDTO.Password,false,false);
+            if (!result.Succeeded)
+                return Unauthorized("There is an issue with signing in process");
+
+
+            return Ok(result);
+
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> LogOut()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok("Logged Out");
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
             //check model
@@ -73,36 +104,6 @@ namespace Sign_Identity.API.Controllers
                 return BadRequest("Something went wrong in Create");
             }
             return Ok();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Login(LoginDTO loginDTO)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest("Something went wrong!");
-            }
-
-            var user = await _userManager.FindByEmailAsync(loginDTO.Email);
-
-            if (user is null)
-                return NotFound("Email not found");
-
-            var result = await _signInManager.PasswordSignInAsync(user: user, password: loginDTO.Password, isPersistent: false, lockoutOnFailure: false);
-            if (!result.Succeeded)
-                return Unauthorized("Something went wrong in Authorization");
-
-
-            return Ok(result);
-
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> LogOut()
-        {
-            await _signInManager.SignOutAsync();
-            return Ok("Logged Out");
         }
     }
 }
