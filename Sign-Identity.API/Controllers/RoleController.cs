@@ -40,7 +40,7 @@ namespace Sign_Identity.API.Controllers
 
             return Ok(new ResponseDTO
             {
-                Message = "Role cann not created",
+                Message = "Role doesn't created",
                 StatusCode = 403
             });
         }
