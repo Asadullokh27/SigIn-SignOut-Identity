@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sign_Identity.API.Filters;
 using Sign_Identity.Application.Services.AuthServices;
 using Sign_Identity.Domain.DTOs;
 using Sign_Identity.Domain.Entities.Auth;
@@ -125,6 +126,7 @@ namespace Sign_Identity.API.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin, Teacher")]
+        [AuthorizeFilter]
         public async Task<IActionResult> GetAllUsers()
         {
             try
