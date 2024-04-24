@@ -73,14 +73,18 @@ namespace Sign_Identity.API.Controllers
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
             foreach (var role in registerDTO.Roles)
             {
-                await _userManager.AddToRoleAsync(user, role);
+                if (role != null)
+                {
+                    await _userManager.AddToRoleAsync(user, role);
+                }
             }
+
             if (!result.Succeeded)
             {
                 return BadRequest("Something went wrong in Create");
             }
 
-            return Ok("Qilichdek Qilichbek");
+            return Ok("Muvaffaqiyatli o'tdi!");
         }
 
         [HttpPost("Login")]

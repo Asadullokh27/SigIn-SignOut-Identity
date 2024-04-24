@@ -47,7 +47,7 @@ namespace Sign_Identity.API.Controllers
 
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<IdentityRole>>> GetAllRoles()
         {
             var roles = await _roleManager.Roles.ToListAsync();
