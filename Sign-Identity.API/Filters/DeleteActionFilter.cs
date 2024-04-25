@@ -8,7 +8,7 @@ namespace Sign_Identity.API.Filters
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            Console.WriteLine("Function out");
+            Console.WriteLine("Func out");
         }
 
         public void OnActionExecuting(ActionExecutingContext context)

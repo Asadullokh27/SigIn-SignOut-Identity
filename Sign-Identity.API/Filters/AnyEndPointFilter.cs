@@ -8,11 +8,20 @@ namespace Sign_Identity.API.Filters
     {
         public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
         {
-            Console.WriteLine("Hello World");
+            var request = context.HttpContext.Request;
+            Console.WriteLine($"Request to endpoint {request.Path} received.");
+
+            var userAgent = request.Headers["User-Agent"].ToString();
+            if (userAgent.Contains("MSIE"))
+            {
+                context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                await context.HttpContext.Response.WriteAsync("Unsupported Browser");
+                return null;
+            }
 
             await next(context);
 
-            
+
             return null;
         }
     }

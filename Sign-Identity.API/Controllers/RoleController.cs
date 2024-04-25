@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sign_Identity.API.Filters;
 using Sign_Identity.Domain.DTOs;
 
 namespace Sign_Identity.API.Controllers
@@ -47,6 +48,7 @@ namespace Sign_Identity.API.Controllers
 
 
         [HttpGet]
+        [DeleteActionFilter]
         //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<IdentityRole>>> GetAllRoles()
         {
